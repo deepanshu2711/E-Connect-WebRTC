@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { BiPlus } from "react-icons/bi";
 import { FaRegUser } from "react-icons/fa6";
+import CreateNewMeetingModal from "../components/modal/newMeeting";
+import JoinMeetingModal from "../components/modal/joinMeeting";
 
 const Landing = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [OpenCreateNewMeeting, setOpenCreateNewMeeting] = useState(false);
+  const [OpenJoinMeeting, setOpenJoinMeeting] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -13,14 +17,22 @@ const Landing = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const formatDate = (date) => {
-    const options = {
+  const formatDate = (date: Date): string => {
+    const options: Intl.DateTimeFormatOptions = {
       weekday: "long",
       day: "numeric",
       month: "long",
       year: "numeric",
     };
     return date.toLocaleDateString(undefined, options);
+  };
+
+  const handleCreateNewMeeting = () => {
+    setOpenCreateNewMeeting(!OpenCreateNewMeeting);
+  };
+
+  const handleJoinMeeting = () => {
+    setOpenJoinMeeting(!OpenJoinMeeting);
   };
 
   return (
@@ -40,7 +52,10 @@ const Landing = () => {
         </div>
       </div>
       <div className="flex items-center gap-4 mt-4">
-        <div className="bg-[#FF742E] cursor-pointer flex flex-col justify-between p-4 rounded-xl h-[200px] w-[200px]">
+        <div
+          onClick={handleCreateNewMeeting}
+          className="bg-[#FF742E] cursor-pointer flex flex-col justify-between p-4 rounded-xl h-[200px] w-[200px]"
+        >
           <div className="bg-white/50 h-[36px] flex items-center justify-center w-[36px]  rounded-lg">
             <BiPlus className="h-[30px] text-white  w-[30px]" />
           </div>
@@ -50,7 +65,10 @@ const Landing = () => {
           </div>
         </div>
 
-        <div className="bg-[#0E78F9] cursor-pointer flex flex-col justify-between p-4 rounded-xl h-[200px] w-[200px]">
+        <div
+          onClick={handleJoinMeeting}
+          className="bg-[#830EF9] cursor-pointer flex flex-col justify-between p-4 rounded-xl h-[200px] w-[200px]"
+        >
           <div className="bg-white/50 h-[36px] flex items-center justify-center w-[36px]  rounded-lg">
             <FaRegUser className="h-[20px] text-white  w-[20px]" />
           </div>
@@ -60,6 +78,12 @@ const Landing = () => {
           </div>
         </div>
       </div>
+
+      {OpenCreateNewMeeting && (
+        <CreateNewMeetingModal handleClose={handleCreateNewMeeting} />
+      )}
+
+      {OpenJoinMeeting && <JoinMeetingModal handleClose={handleJoinMeeting} />}
     </div>
   );
 };
