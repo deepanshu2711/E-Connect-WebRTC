@@ -1,18 +1,53 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
+import { useSocket } from "../../provider/webSocketProvider";
+import { useNavigate } from "react-router-dom";
 
 const CreateNewMeetingModal = ({
   handleClose,
 }: {
   handleClose: () => void;
 }) => {
+  const [roomId, setRoomId] = useState("");
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+  const socket = useSocket();
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
-
     return () => {
       document.body.style.overflow = "auto";
     };
   }, []);
+
+  useEffect(() => {
+    setRoomId(generateRandomString(10));
+  }, []);
+
+  const handleCreateMeeting = () => {
+    if (socket.isConnected === false) {
+      return;
+    }
+    socket.socket?.send(JSON.stringify({ type: "sender" }));
+    socket.socket?.send(
+      JSON.stringify({ type: "roomId", data: { roomId, email } })
+    );
+
+    navigate(`room/sender/${roomId}`);
+  };
+
+  function generateRandomString(length: number) {
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters.charAt(randomIndex);
+    }
+
+    return result;
+  }
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -28,19 +63,18 @@ const CreateNewMeetingModal = ({
         <div className="flex  gap-1 flex-col mt-10">
           <label className="text-white text-[12px]">E-mail</label>
           <input
+            required
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="p-2 focus-within:outline-none bg-[#1C1F2E] text-white"
             placeholder="johnDoe@gmail.com"
           />
         </div>
-        {/* <div className="flex  gap-1 flex-col mt-5">
-          <label className="text-white text-[12px]">Room Id</label>
-          <input
-            className="p-2 focus-within:outline-none bg-[#1C1F2E] text-white"
-            placeholder="ahvkh12jhv34242"
-          />
-        </div> */}
-
-        <button className="bg-[#FF742E] mt-5 p-2 text-white text-center w-full">
+        <button
+          onClick={handleCreateMeeting}
+          className="bg-[#FF742E] mt-5 p-2 text-white text-center w-full"
+        >
           Create Meeting
         </button>
       </div>

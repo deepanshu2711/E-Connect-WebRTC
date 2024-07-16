@@ -1,7 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
+import { useSocket } from "../../provider/webSocketProvider";
+import { useNavigate } from "react-router-dom";
 
 const JoinMeetingModal = ({ handleClose }: { handleClose: () => void }) => {
+  const [roomId, setRoomId] = useState("");
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+  const socket = useSocket();
   useEffect(() => {
     document.body.style.overflow = "hidden";
 
@@ -9,6 +15,18 @@ const JoinMeetingModal = ({ handleClose }: { handleClose: () => void }) => {
       document.body.style.overflow = "auto";
     };
   }, []);
+
+  const handleJoinMeeting = () => {
+    if (socket.isConnected === false) {
+      return;
+    }
+    socket.socket?.send(JSON.stringify({ type: "receiver" }));
+    socket.socket?.send(
+      JSON.stringify({ type: "roomId", data: { roomId, email } })
+    );
+
+    navigate(`room/receiver/${roomId}`);
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -24,6 +42,8 @@ const JoinMeetingModal = ({ handleClose }: { handleClose: () => void }) => {
         <div className="flex  gap-1 flex-col mt-10">
           <label className="text-white text-[12px]">E-mail</label>
           <input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="p-2 focus-within:outline-none bg-[#1C1F2E] text-white"
             placeholder="johnDoe@gmail.com"
           />
@@ -31,12 +51,17 @@ const JoinMeetingModal = ({ handleClose }: { handleClose: () => void }) => {
         <div className="flex  gap-1 flex-col mt-5">
           <label className="text-white text-[12px]">Room Id</label>
           <input
+            value={roomId}
+            onChange={(e) => setRoomId(e.target.value)}
             className="p-2 focus-within:outline-none bg-[#1C1F2E] text-white"
             placeholder="ahvkh12jhv34242"
           />
         </div>
 
-        <button className="bg-[#830EF9] mt-5 p-2 text-white text-center w-full">
+        <button
+          onClick={handleJoinMeeting}
+          className="bg-[#830EF9] mt-5 p-2 text-white text-center w-full"
+        >
           Join Meeting
         </button>
       </div>
