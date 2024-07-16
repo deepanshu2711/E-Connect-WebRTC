@@ -1,10 +1,15 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Landing from "./pages/LandingPage";
+import MainLayout from "./components/layout/mainLayout";
 function App() {
   return (
-    <>
-      <div>
-        <p className="text-3xl text-rose-500 font-semibold">Home screen</p>
-      </div>
-    </>
+    <BrowserRouter>
+      <MainLayout>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+        </Routes>
+      </MainLayout>
+    </BrowserRouter>
   );
 }
 
