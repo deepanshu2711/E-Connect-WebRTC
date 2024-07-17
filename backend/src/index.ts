@@ -20,8 +20,6 @@ wss.on("connection", (ws) => {
             console.log("receiver connected")
             ReciverSocket = ws
         } else if (message.type === "roomId") {
-            console.log("RoomID Recived")
-            console.log(message.data)
             const roomId = message.data.roomId;
             if (!RoomMap.has(roomId)) {
                 RoomMap.set(roomId, []);
@@ -30,13 +28,52 @@ wss.on("connection", (ws) => {
             if (roomConnections.length < 2) {
                 roomConnections.push(ws);
                 RoomMap.set(roomId, roomConnections);
-                console.log(`User connected to room ${roomId}. Total users in room: ${roomConnections.length}`);
+
+                if (roomConnections.length === 2) {
+                    console.log("Other user joined")
+                    SenderSocket?.send(JSON.stringify({ type: 'userJoined' }));
+                }
+                // console.log(`User connected to room ${roomId}. Total users in room: ${roomConnections.length}`);
             } else {
-                console.log(`Room ${roomId} is full. Disconnecting user.`);
+                // console.log(`Room ${roomId} is full. Disconnecting user.`);
                 ws.send(JSON.stringify({ type: 'error', message: 'Room is full' }));
                 ws.close();
             }
 
+        } else if (message.type === "createOffer") {
+            console.log("create offer")
+            if (ws !== SenderSocket) {
+                console.log("not sender")
+                return
+            }
+            ReciverSocket?.send(JSON.stringify({ type: 'createOffer', sdp: message.sdp }));
+        } else if (message.type === "createAnswer") {
+            console.log("create answer")
+            if (ws !== ReciverSocket) {
+                return
+            }
+            SenderSocket?.send(JSON.stringify({ type: 'createAnswer', sdp: message.sdp }));
+        } else if (message.type === "iceCandidate") {
+            console.log("ice candidate")
+            if (ws === SenderSocket) {
+                ReciverSocket?.send(JSON.stringify({ type: 'iceCandidate', candidate: message.candidate }))
+            } else if (ws === ReciverSocket) {
+                SenderSocket?.send(JSON.stringify({ type: 'iceCandidate', candidate: message.candidate }))
+            }
+        } else if (message.type === "endCall") {
+            console.log("end call")
+            if (ws === SenderSocket) {
+                ReciverSocket?.send(JSON.stringify({ type: 'endCall' }))
+                SenderSocket?.send(JSON.stringify({ type: 'endCall' }))
+                RoomMap.delete(message.data.roomId)
+                console.log(RoomMap.has(message.data.roomId))
+
+            } else if (ws === ReciverSocket) {
+                SenderSocket?.send(JSON.stringify({ type: 'endCall' }))
+                ReciverSocket?.send(JSON.stringify({ type: 'endCall' }))
+                RoomMap.delete(message.data.roomId)
+                console.log(RoomMap.has(message.data.roomId))
+            }
         }
     }
 })
