@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BiPlus } from "react-icons/bi";
 import { FaRegUser } from "react-icons/fa6";
+import { LuCalendar } from "react-icons/lu";
 import CreateNewMeetingModal from "../components/modal/newMeeting";
 import JoinMeetingModal from "../components/modal/joinMeeting";
 
@@ -46,7 +47,7 @@ const Landing = () => {
           <p className="text-white text-5xl font-bold">
             {currentTime.toLocaleTimeString()}
           </p>
-          <p className="text-[#C9DDFF] text-[18px] font-medium">
+          <p className="text-[#ECF0FF] text-[18px] font-medium">
             {formatDate(currentTime)}
           </p>
         </div>
@@ -61,7 +62,9 @@ const Landing = () => {
           </div>
           <div>
             <p className="text-white font-semibold text-[18px]">New Meeting</p>
-            <p className="text-[#C9DDFF] text-[12px]">Start new meeting</p>
+            <p className="text-[#ECF0FF] text-[12px]">
+              Create an instant meeting
+            </p>
           </div>
         </div>
 
@@ -74,7 +77,24 @@ const Landing = () => {
           </div>
           <div>
             <p className="text-white font-semibold text-[18px]">Join Meeting</p>
-            <p className="text-[#C9DDFF] text-[12px]">Join via room Id</p>
+            <p className="text-[#ECF0FF] text-[12px]">
+              Join a meeting via room Id
+            </p>
+          </div>
+        </div>
+
+        <div
+          onClick={handleJoinMeeting}
+          className="bg-[#F9A90E] cursor-pointer flex flex-col justify-between p-4 rounded-xl h-[200px] w-[200px]"
+        >
+          <div className="bg-white/50 h-[36px] flex items-center justify-center w-[36px]  rounded-lg">
+            <LuCalendar className="h-[25px] text-white w-[25px]" />
+          </div>
+          <div>
+            <p className="text-white font-semibold text-[18px]">
+              Schedule Meeting
+            </p>
+            <p className="text-[#ECF0FF] text-[12px]">Plan your meeting</p>
           </div>
         </div>
       </div>

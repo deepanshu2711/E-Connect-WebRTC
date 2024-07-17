@@ -31,9 +31,9 @@ const JoinMeetingModal = ({ handleClose }: { handleClose: () => void }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="absolute inset-0 bg-black opacity-50"></div>
-      <div className="relative bg-slate-950 w-[350px] p-4 z-10">
+      <div className="relative bg-slate-950 w-[350px] p-4 z-10 rounded-xl">
         <div className="flex items-center justify-between">
-          <p className="text-white">Join Meeting</p>
+          <p className="text-white font-semibold">Join Meeting</p>
           <RxCross2
             className="h-5 w-5 cursor-pointer text-white"
             onClick={handleClose}
@@ -44,7 +44,7 @@ const JoinMeetingModal = ({ handleClose }: { handleClose: () => void }) => {
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="p-2 focus-within:outline-none bg-[#1C1F2E] text-white"
+            className="p-2 focus-within:outline-none rounded-lg bg-[#1C1F2E] text-white"
             placeholder="johnDoe@gmail.com"
           />
         </div>
@@ -53,14 +53,14 @@ const JoinMeetingModal = ({ handleClose }: { handleClose: () => void }) => {
           <input
             value={roomId}
             onChange={(e) => setRoomId(e.target.value)}
-            className="p-2 focus-within:outline-none bg-[#1C1F2E] text-white"
-            placeholder="ahvkh12jhv34242"
+            className="p-2 focus-within:outline-none rounded-lg bg-[#1C1F2E] text-white"
+            placeholder="wdahvkh12j"
           />
         </div>
 
         <button
           onClick={handleJoinMeeting}
-          className="bg-[#830EF9] mt-5 p-2 text-white text-center w-full"
+          className="bg-[#830EF9] rounded-lg font-semibold mt-5 p-2 text-white text-center w-full"
         >
           Join Meeting
         </button>

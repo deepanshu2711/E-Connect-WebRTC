@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSocket } from "../provider/webSocketProvider";
 import { MdCallEnd } from "react-icons/md";
 import { useParams } from "react-router-dom";
@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 const ReceiverRoom = () => {
   const myVideoRef = useRef<HTMLVideoElement | null>(null);
   const RemoteRef = useRef<HTMLVideoElement | null>(null);
+  const [pc, setPc] = useState<RTCPeerConnection | null>(null);
   const socket = useSocket();
   const params = useParams();
 
@@ -28,6 +29,7 @@ const ReceiverRoom = () => {
       ],
     });
 
+    setPc(pc);
     pc.ontrack = (event) => {
       console.log(event);
       if (RemoteRef.current) {
@@ -95,14 +97,30 @@ const ReceiverRoom = () => {
           ref={myVideoRef}
           autoPlay
           muted
-          className="h-full w-full object-cover rounded-xl"
+          className="h-full border-4  w-full object-cover rounded-xl"
         />
       </div>
       <div className="flex items-center gap-4 absolute bottom-10  left-[50%]">
         {/* <div className="h-16 w-16 rounded-full bg-black"></div>
         <div className="h-16 w-16 rounded-full bg-black"></div> */}
-        <div className="h-16 w-16 flex items-center justify-center rounded-full bg-rose-600">
-          <MdCallEnd className="h-10 w-10 text-white" onClick={handleEndCall} />
+        {/* <div className="h-16 w-16 cursor-pointer flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700">
+          {videoOn ? (
+            <PiVideoCameraDuotone
+              className="h-10 w-10 text-white"
+              onClick={togglevideoOn}
+            />
+          ) : (
+            <PiVideoCameraSlashDuotone
+              className="h-10 w-10 text-white"
+              onClick={togglevideoOn}
+            />
+          )}
+        </div> */}
+        <div
+          onClick={handleEndCall}
+          className="h-16 w-16 cursor-pointer flex items-center justify-center rounded-full bg-rose-500 hover:bg-rose-600"
+        >
+          <MdCallEnd className="h-10 w-10 text-white" />
         </div>
       </div>
     </div>

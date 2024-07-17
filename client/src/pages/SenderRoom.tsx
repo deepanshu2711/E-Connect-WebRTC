@@ -124,8 +124,11 @@ const SenderRoom = () => {
         {/* <div className="h-16 w-16 rounded-full bg-black"></div>
         <div className="h-16 w-16 rounded-full bg-black"></div> */}
         {/* <div className="h-16 w-16 rounded-full bg-black"></div> */}
-        <div className="h-16 w-16 flex items-center justify-center rounded-full bg-rose-600">
-          <MdCallEnd className="h-10 w-10 text-white" onClick={handleEndCall} />
+        <div
+          onClick={handleEndCall}
+          className="h-16 w-16 flex items-center justify-center rounded-full bg-rose-600"
+        >
+          <MdCallEnd className="h-10 w-10 text-white" />
         </div>
       </div>
     </div>
