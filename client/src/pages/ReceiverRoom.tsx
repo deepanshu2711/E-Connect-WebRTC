@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useSocket } from "../provider/webSocketProvider";
 import { MdCallEnd } from "react-icons/md";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ReceiverRoom = () => {
   const myVideoRef = useRef<HTMLVideoElement | null>(null);
   const RemoteRef = useRef<HTMLVideoElement | null>(null);
   const [pc, setPc] = useState<RTCPeerConnection | null>(null);
+  const navigate = useNavigate();
   const socket = useSocket();
   const params = useParams();
 
@@ -56,7 +57,7 @@ const ReceiverRoom = () => {
       } else if (message.type === "endCall") {
         pc.close();
         socket.close();
-        window.location.href = "/dashboard";
+        navigate("/dashboard");
       }
     };
 

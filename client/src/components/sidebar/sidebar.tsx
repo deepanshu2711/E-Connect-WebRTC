@@ -7,7 +7,7 @@ const Sidebar = () => {
         <img src="/Zoom-icon.png" className="h-[30px] w-[30px] object-cover" />
         <h1 className="font-semibold text-lg text-white">E-Connect</h1>
       </div>
-      <div className="w-full p-2">
+      <div className="w-full p-2 flex-1">
         <SideBarItems />
       </div>
     </div>

@@ -44,7 +44,7 @@ const Dashboard = () => {
     <div className="p-4 h-[100%] bg-slate-950">
       <div className="relative w-full h-[253px]">
         <img
-          src="https://s3-alpha-sig.figma.com/img/617d/6a49/dbb41d63aba7130ea6afa867345c68c7?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=CUbIcMWV-KLSS6oYDusUAEAhHiTkJExvV99SJJSLm2HZanjlE993HnMLHAKNxSz3CnILduqUldUX4eqBDqswajDt9~oiSQ2YSu-j8Wu7t1HK-Kh3DoymXPBWd-HVZo4TpYkqBCpknSviUdC-yo6K07xgOXStp7e74KvfBerfgp4wcWGA2jm0XPLEPeQQCd7Dzmg2Y5bOiRKJKat-3FYGB-f2LzPKxZ7xjeVyqynggQ1bN2O7klMt-~8Rsn5x1NfC5cDUFIW7r4W3gNPqM64UtBPXIFdBQ88evMZHq4nBtBSTo4ybahvY7Sr5Z53aVORDBLwdBM0QErfJqQ~~X0ezZA__"
+          src="/hero.png"
           className="w-full h-full object-cover transform scale-x-[-1] rounded-lg "
         />
         <div className="absolute bottom-4 left-4 flex flex-col gap-2">
