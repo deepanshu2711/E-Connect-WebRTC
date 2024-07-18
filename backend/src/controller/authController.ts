@@ -35,8 +35,8 @@ export const SignUpController = async (req: Request, res: Response) => {
         if (existingUser) {
             return res.status(409).json({ message: "User already exists" })
         }
-        const Newuser = await UserModel.create({ email, password, userName })
-        return res.status(200).json({ message: "Login successful", Newuser })
+        const user = await UserModel.create({ email, password, userName })
+        return res.status(200).json({ message: "Login successful", user })
     } catch (error) {
         console.log("SignUpController Error:", error)
         return res.status(500).json({ message: "Internal server error" })

@@ -4,11 +4,15 @@ import { FaRegUser } from "react-icons/fa6";
 import { LuCalendar } from "react-icons/lu";
 import CreateNewMeetingModal from "../components/modal/newMeeting";
 import JoinMeetingModal from "../components/modal/joinMeeting";
+import { useUser } from "../provider/currentUserProvider";
 
 const Dashboard = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [OpenCreateNewMeeting, setOpenCreateNewMeeting] = useState(false);
   const [OpenJoinMeeting, setOpenJoinMeeting] = useState(false);
+  const currentUser = useUser();
+
+  console.log(currentUser);
 
   useEffect(() => {
     const timer = setInterval(() => {

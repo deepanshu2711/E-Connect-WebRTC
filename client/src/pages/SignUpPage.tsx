@@ -1,14 +1,19 @@
 import axios from "axios";
 import { useState } from "react";
 import { FaGithub } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "../provider/currentUserProvider";
 
 const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const currentUser = useUser();
+  const navigate = useNavigate();
 
   const handleSignUp = async () => {
+    setErrorMessage("");
     try {
       const responce = await axios.post("http://localhost:8080/api/signUp", {
         email,
@@ -17,17 +22,21 @@ const SignUpPage = () => {
       });
       console.log(responce.data);
       if (responce.status === 200) {
-        alert("Account created successfully");
+        // alert("Account created successfully");
+        currentUser.setUser(responce.data.user);
+        navigate("/dashboard");
+      } else {
+        setErrorMessage(responce.data.message);
       }
     } catch (error) {
-      console.log(error);
+      setErrorMessage(error.response?.data?.message);
     }
   };
 
   return (
     <div className="bg-slate-950 flex flex-col items-center justify-center h-screen">
       <div className="bg-[#1C1F2E] rounded-xl  min-w-[450px] min-h-[400px]">
-        <div className="bg-[#1C1F2E]  rounded-xl flex flex-col  px-10 py-4">
+        <div className="bg-[#1C1F2E]  rounded-xl flex flex-col  px-10 pt-4">
           <div className="flex flex-col gap-1 items-center">
             <div className="flex items-center gap-2 mb-4">
               <img
@@ -95,6 +104,9 @@ const SignUpPage = () => {
               Sign Up
             </button>
           </div>
+          <p className="text-rose-500 mt-2 text-[12px] font-semibold">
+            {errorMessage}
+          </p>
         </div>
         <div className="mt-5 flex items-center rounded-b-xl justify-center bg-slate-800 w-full p-4">
           <p className="text-gray-100 text-[12px]">
