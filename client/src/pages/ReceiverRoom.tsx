@@ -56,7 +56,7 @@ const ReceiverRoom = () => {
       } else if (message.type === "endCall") {
         pc.close();
         socket.close();
-        window.location.href = "/";
+        window.location.href = "/dashboard";
       }
     };
 
@@ -93,11 +93,14 @@ const ReceiverRoom = () => {
         />
       </div>
       <div className=" absolute top-5 left-5 rounded-xl w-[300px] h-[200px] bg-black">
+        <div className="absolute top-0 left-0 py-2 px-5  bg-white">
+          <p className="text-black font-semibold">You</p>
+        </div>
         <video
           ref={myVideoRef}
           autoPlay
           muted
-          className="h-full border-4  w-full object-cover rounded-xl"
+          className="h-full border-4 w-full object-cover rounded-xl"
         />
       </div>
       <div className="flex items-center gap-4 absolute bottom-10  left-[50%]">
