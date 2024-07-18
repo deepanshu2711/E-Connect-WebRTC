@@ -1,7 +1,29 @@
+import axios from "axios";
+import { useState } from "react";
 import { FaGithub } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 const SignUpPage = () => {
+  const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSignUp = async () => {
+    try {
+      const responce = await axios.post("http://localhost:8080/api/signUp", {
+        email,
+        userName,
+        password,
+      });
+      console.log(responce.data);
+      if (responce.status === 200) {
+        alert("Account created successfully");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="bg-slate-950 flex flex-col items-center justify-center h-screen">
       <div className="bg-[#1C1F2E] rounded-xl  min-w-[450px] min-h-[400px]">
@@ -41,6 +63,8 @@ const SignUpPage = () => {
             <div className="felx flex-col gap-2">
               <p className="text-gray-100 text-[12px] mb-1">Email address</p>
               <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="p-1 rounded-lg focus-within:outline-none w-full bg-slate-950 text-gray-100"
                 type="email"
               />
@@ -48,6 +72,8 @@ const SignUpPage = () => {
             <div className="felx flex-col gap-2">
               <p className="text-gray-100 text-[12px] mb-1">Username</p>
               <input
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
                 className="p-1 rounded-lg focus-within:outline-none w-full bg-slate-950 text-gray-100"
                 type="text"
               />
@@ -56,11 +82,16 @@ const SignUpPage = () => {
             <div className="felx flex-col gap-2">
               <p className="text-gray-100 text-[12px] mb-1">Password</p>
               <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="p-1 rounded-lg focus-within:outline-none w-full bg-slate-950 text-gray-100"
                 type="password"
               />
             </div>
-            <button className="py-1 mt-3 text-[14px]  px-5 rounded-lg bg-blue-600 text-white">
+            <button
+              onClick={handleSignUp}
+              className="py-1 mt-3 text-[14px]  px-5 rounded-lg bg-blue-600 text-white"
+            >
               Sign Up
             </button>
           </div>
