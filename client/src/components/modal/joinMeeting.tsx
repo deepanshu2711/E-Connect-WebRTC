@@ -2,10 +2,17 @@ import { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { useSocket } from "../../provider/webSocketProvider";
 import { useNavigate } from "react-router-dom";
+import { User } from "../../types";
+import { IoCheckmarkDoneSharp } from "react-icons/io5";
 
-const JoinMeetingModal = ({ handleClose }: { handleClose: () => void }) => {
+const JoinMeetingModal = ({
+  handleClose,
+  currentUser,
+}: {
+  handleClose: () => void;
+  currentUser: User;
+}) => {
   const [roomId, setRoomId] = useState("");
-  const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const socket = useSocket();
   useEffect(() => {
@@ -22,7 +29,10 @@ const JoinMeetingModal = ({ handleClose }: { handleClose: () => void }) => {
     }
     socket.socket?.send(JSON.stringify({ type: "receiver" }));
     socket.socket?.send(
-      JSON.stringify({ type: "roomId", data: { roomId, email } })
+      JSON.stringify({
+        type: "roomId",
+        data: { roomId, email: currentUser.email },
+      })
     );
 
     navigate(`room/receiver/${roomId}`);
@@ -41,12 +51,10 @@ const JoinMeetingModal = ({ handleClose }: { handleClose: () => void }) => {
         </div>
         <div className="flex  gap-1 flex-col mt-10">
           <label className="text-white text-[12px]">E-mail</label>
-          <input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="p-2 focus-within:outline-none rounded-lg bg-[#1C1F2E] text-white"
-            placeholder="johnDoe@gmail.com"
-          />
+          <div className="p-2 flex items-center justify-between focus-within:outline-none rounded-lg bg-[#1C1F2E] text-white">
+            <p>{currentUser.email}</p>
+            <IoCheckmarkDoneSharp className="text-emerald-500 cursor-pointer h-5 w-5 mr-2" />
+          </div>
         </div>
         <div className="flex  gap-1 flex-col mt-5">
           <label className="text-white text-[12px]">Room Id</label>

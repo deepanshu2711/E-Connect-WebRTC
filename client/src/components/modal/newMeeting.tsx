@@ -4,14 +4,17 @@ import { useSocket } from "../../provider/webSocketProvider";
 import { useNavigate } from "react-router-dom";
 import { IoIosCopy } from "react-icons/io";
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
+import { User } from "../../types";
 
 const CreateNewMeetingModal = ({
   handleClose,
+  currentUser,
 }: {
   handleClose: () => void;
+  currentUser: User;
 }) => {
   const [roomId, setRoomId] = useState("");
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [copyRoomId, setCopyRoomId] = useState(false);
   const navigate = useNavigate();
   const socket = useSocket();
@@ -33,7 +36,10 @@ const CreateNewMeetingModal = ({
     }
     socket.socket?.send(JSON.stringify({ type: "sender" }));
     socket.socket?.send(
-      JSON.stringify({ type: "roomId", data: { roomId, email } })
+      JSON.stringify({
+        type: "roomId",
+        data: { roomId, email: currentUser.email },
+      })
     );
 
     navigate(`room/sender/${roomId}`);
@@ -70,14 +76,10 @@ const CreateNewMeetingModal = ({
         </div>
         <div className="flex  gap-1 flex-col mt-10">
           <label className="text-white text-[12px]">E-mail</label>
-          <input
-            required
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="p-2 focus-within:outline-none rounded-lg bg-[#1C1F2E] text-white"
-            placeholder="johnDoe@gmail.com"
-          />
+          <div className="p-2 flex items-center justify-between focus-within:outline-none rounded-lg bg-[#1C1F2E] text-white">
+            <p>{currentUser.email}</p>
+            <IoCheckmarkDoneSharp className="text-emerald-500 cursor-pointer h-5 w-5 mr-2" />
+          </div>
         </div>
         <p className="mt-5 text-white text-[12px] mb-1">Room Id</p>
         <div className="flex items-center justify-between gap-1 rounded-lg  bg-[#1C1F2E] p-2">

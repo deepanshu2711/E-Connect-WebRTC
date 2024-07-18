@@ -104,10 +104,18 @@ const Dashboard = () => {
       </div>
 
       {OpenCreateNewMeeting && (
-        <CreateNewMeetingModal handleClose={handleCreateNewMeeting} />
+        <CreateNewMeetingModal
+          handleClose={handleCreateNewMeeting}
+          currentUser={currentUser.user}
+        />
       )}
 
-      {OpenJoinMeeting && <JoinMeetingModal handleClose={handleJoinMeeting} />}
+      {OpenJoinMeeting && (
+        <JoinMeetingModal
+          handleClose={handleJoinMeeting}
+          currentUser={currentUser.user}
+        />
+      )}
     </div>
   );
 };
