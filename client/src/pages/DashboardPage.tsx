@@ -5,11 +5,14 @@ import { LuCalendar } from "react-icons/lu";
 import CreateNewMeetingModal from "../components/modal/newMeeting";
 import JoinMeetingModal from "../components/modal/joinMeeting";
 import { useUser } from "../provider/currentUserProvider";
+import { User } from "../types";
+import ScheduleMeeting from "../components/modal/scheduleMeeting";
 
 const Dashboard = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [OpenCreateNewMeeting, setOpenCreateNewMeeting] = useState(false);
   const [OpenJoinMeeting, setOpenJoinMeeting] = useState(false);
+  const [openScheduleMeeting, setOpenScheduleMeeting] = useState(false);
   const currentUser = useUser();
 
   console.log(currentUser);
@@ -38,6 +41,10 @@ const Dashboard = () => {
 
   const handleJoinMeeting = () => {
     setOpenJoinMeeting(!OpenJoinMeeting);
+  };
+
+  const handleScheduleMeeting = () => {
+    setOpenScheduleMeeting(!openScheduleMeeting);
   };
 
   return (
@@ -88,7 +95,7 @@ const Dashboard = () => {
         </div>
 
         <div
-          onClick={handleJoinMeeting}
+          onClick={handleScheduleMeeting}
           className="bg-[#F9A90E] cursor-pointer flex flex-col justify-between p-4 rounded-xl h-[200px] w-[200px]"
         >
           <div className="bg-white/50 h-[36px] flex items-center justify-center w-[36px]  rounded-lg">
@@ -106,14 +113,21 @@ const Dashboard = () => {
       {OpenCreateNewMeeting && (
         <CreateNewMeetingModal
           handleClose={handleCreateNewMeeting}
-          currentUser={currentUser.user}
+          currentUser={currentUser.user as User}
         />
       )}
 
       {OpenJoinMeeting && (
         <JoinMeetingModal
           handleClose={handleJoinMeeting}
-          currentUser={currentUser.user}
+          currentUser={currentUser.user as User}
+        />
+      )}
+
+      {openScheduleMeeting && (
+        <ScheduleMeeting
+          handleClose={handleScheduleMeeting}
+          currentUser={currentUser.user as User}
         />
       )}
     </div>
