@@ -7,7 +7,10 @@ const SenderRoom = () => {
   const socket = useSocket();
   const [pc, setPc] = useState<RTCPeerConnection | null>(null);
   const myVideoRef = useRef<HTMLVideoElement | null>(null);
+  const [myStream, setMyStream] = useState<MediaStream | null>(null);
   const remoteRef = useRef<HTMLVideoElement | null>(null);
+  const [startTime, setStartTime] = useState<string>("");
+  const [endTime, setEndTime] = useState<string>("");
   const navigate = useNavigate();
   const params = useParams();
 
@@ -15,11 +18,12 @@ const SenderRoom = () => {
     if (socket.socket === null) {
       return;
     }
-
     socket.socket.onmessage = (event) => {
       const message = JSON.parse(event.data);
       if (message.type === "userJoined") {
+        console.log(message.data);
         InitiateConnection();
+        setStartTime(Date.now().toLocaleString("en-US"));
       }
     };
   }, [socket.socket]);
@@ -64,9 +68,11 @@ const SenderRoom = () => {
       } else if (message.type === "iceCandidate") {
         pc.addIceCandidate(message.candidate);
       } else if (message.type === "endCall") {
+        console.log("sender recived end call");
         pc.close();
         socket.socket?.close();
-        navigate("/dashboard");
+        setEndTime(Date.now().toLocaleString("en-US"));
+        //save this data in database
       }
     };
 
@@ -88,6 +94,7 @@ const SenderRoom = () => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((stream) => {
+        setMyStream(stream);
         if (myVideoRef.current) {
           myVideoRef.current.srcObject = stream;
         }
@@ -101,6 +108,8 @@ const SenderRoom = () => {
     socket.socket?.send(
       JSON.stringify({ type: "endCall", data: params.roomId })
     );
+    setEndTime(Date.now().toLocaleString("en-US"));
+    navigate("/dashboard");
   };
 
   return (

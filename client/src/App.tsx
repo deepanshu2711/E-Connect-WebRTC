@@ -9,6 +9,7 @@ import SignUpPage from "./pages/SignUpPage";
 import Dashboard from "./pages/DashboardPage";
 import { CurrentUserProvider } from "./provider/currentUserProvider";
 import { PrivateRoute } from "./components/privateRoute";
+import PreviousMeetings from "./components/Meetings/previousMeetings";
 function App() {
   return (
     <CurrentUserProvider>
@@ -21,6 +22,14 @@ function App() {
                 element={
                   <MainLayout>
                     <Dashboard />
+                  </MainLayout>
+                }
+              />
+              <Route
+                path="/previousMeetings"
+                element={
+                  <MainLayout>
+                    <PreviousMeetings />
                   </MainLayout>
                 }
               />

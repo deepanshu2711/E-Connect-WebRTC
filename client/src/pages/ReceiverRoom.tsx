@@ -81,6 +81,7 @@ const ReceiverRoom = () => {
     socket.socket?.send(
       JSON.stringify({ type: "endCall", data: params.roomId })
     );
+    navigate("/dashboard");
   };
 
   return (

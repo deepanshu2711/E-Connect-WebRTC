@@ -27,12 +27,15 @@ export const WebSocketServer = (Server: Server) => {
                 }
                 const roomConnections = RoomMap.get(roomId);
                 if (roomConnections.length < 2) {
-                    roomConnections.push(ws);
+                    roomConnections.push(message.data.email);
                     RoomMap.set(roomId, roomConnections);
 
                     if (roomConnections.length === 2) {
                         console.log("Other user joined")
-                        SenderSocket?.send(JSON.stringify({ type: 'userJoined' }));
+                        console.log(RoomMap.get(roomId)[0])
+                        console.log(RoomMap.get(roomId)[1])
+                        SenderSocket?.send(JSON.stringify({ type: 'userJoined', data: RoomMap.get(roomId)[1] }));
+                        ReciverSocket?.send(JSON.stringify({ type: 'userJoined', data: RoomMap.get(roomId)[0] }));
                     }
                     // console.log(`User connected to room ${roomId}. Total users in room: ${roomConnections.length}`);
                 } else {
@@ -65,15 +68,11 @@ export const WebSocketServer = (Server: Server) => {
                 console.log("end call")
                 if (ws === SenderSocket) {
                     ReciverSocket?.send(JSON.stringify({ type: 'endCall' }))
-                    SenderSocket?.send(JSON.stringify({ type: 'endCall' }))
                     RoomMap.delete(message.data.roomId)
-                    console.log(RoomMap.has(message.data.roomId))
 
                 } else if (ws === ReciverSocket) {
                     SenderSocket?.send(JSON.stringify({ type: 'endCall' }))
-                    ReciverSocket?.send(JSON.stringify({ type: 'endCall' }))
                     RoomMap.delete(message.data.roomId)
-                    console.log(RoomMap.has(message.data.roomId))
                 }
             }
         }
