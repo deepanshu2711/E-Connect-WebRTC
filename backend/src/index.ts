@@ -4,6 +4,7 @@ import mongoose from "mongoose"
 import { WebSocketServer } from "./ws";
 import { authRouter } from "./routes/authRouter";
 import dotenv from "dotenv"
+import { meetRouter } from "./routes/meetRouter";
 dotenv.config()
 
 
@@ -18,6 +19,7 @@ app.use(cors({
 }))
 
 app.use("/api", authRouter)
+app.use("/api", meetRouter)
 
 const server = app.listen(8080, () => {
     console.log("Server started on port 8080");

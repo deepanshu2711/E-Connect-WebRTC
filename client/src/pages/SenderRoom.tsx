@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { useSocket } from "../provider/webSocketProvider";
 import { MdCallEnd } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { useUser } from "../provider/currentUserProvider";
 
 const SenderRoom = () => {
   const socket = useSocket();
@@ -11,8 +13,10 @@ const SenderRoom = () => {
   const remoteRef = useRef<HTMLVideoElement | null>(null);
   const [startTime, setStartTime] = useState<string>("");
   const [endTime, setEndTime] = useState<string>("");
+  const [reciverEmail, setReciverEmail] = useState<string>("");
   const navigate = useNavigate();
   const params = useParams();
+  const currentUser = useUser();
 
   useEffect(() => {
     if (socket.socket === null) {
@@ -21,7 +25,7 @@ const SenderRoom = () => {
     socket.socket.onmessage = (event) => {
       const message = JSON.parse(event.data);
       if (message.type === "userJoined") {
-        console.log(message.data);
+        setReciverEmail(message.data);
         InitiateConnection();
         setStartTime(Date.now().toLocaleString("en-US"));
       }
@@ -72,7 +76,7 @@ const SenderRoom = () => {
         pc.close();
         socket.socket?.close();
         setEndTime(Date.now().toLocaleString("en-US"));
-        //save this data in database
+        meetingDetails(Date.now().toLocaleString("en-US"));
       }
     };
 
@@ -88,6 +92,20 @@ const SenderRoom = () => {
     };
 
     getCameraStreamAndSend(pc);
+  };
+
+  const meetingDetails = async (endMeetingTime: string) => {
+    try {
+      await axios.post("http://localhost:8080/api/meetingDetails", {
+        senderEmail: currentUser.user?.email,
+        reciverEmail: reciverEmail,
+        startTime: startTime,
+        endTime: endMeetingTime || endTime,
+      });
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getCameraStreamAndSend = (pc: RTCPeerConnection) => {
@@ -109,7 +127,7 @@ const SenderRoom = () => {
       JSON.stringify({ type: "endCall", data: params.roomId })
     );
     setEndTime(Date.now().toLocaleString("en-US"));
-    navigate("/dashboard");
+    meetingDetails(Date.now().toLocaleString("en-US"));
   };
 
   return (
