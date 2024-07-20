@@ -18,6 +18,6 @@ const MeetSchema = new mongoose.Schema({
         required: true
     },
 
-})
+}, { timestamps: true })
 
 export const MeetModel = mongoose.model("meets", MeetSchema)

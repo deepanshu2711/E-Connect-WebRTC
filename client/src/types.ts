@@ -4,3 +4,13 @@ export type User = {
     email: string;
     password: string;
 }
+
+
+export type Meeting = {
+    _id: string;
+    senderEmail: string;
+    reciverEmail: string;
+    startTime: string;
+    endTime: string;
+    createdAt: string;
+}
