@@ -14,3 +14,12 @@ export type Meeting = {
     endTime: string;
     createdAt: string;
 }
+
+
+export type ScheduledMeeting = {
+    _id: string;
+    senderEmail: string;
+    receiverEmail: string;
+    dateTime: string;
+    roomId: string
+}

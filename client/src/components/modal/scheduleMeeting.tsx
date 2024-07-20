@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { IoIosCopy } from "react-icons/io";
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
-import { User } from "../../types";
+import { ScheduledMeeting, User } from "../../types";
+import axios from "axios";
 
 const ScheduleMeeting = ({
   handleClose,
@@ -16,6 +17,8 @@ const ScheduleMeeting = ({
   const [email, setEmail] = useState("");
   const [copyRoomId, setCopyRoomId] = useState(false);
   const [meetingScheduled, setMeetingScheduled] = useState(false);
+  const [scheduledMeetingDetails, setScheduledMeetingDetails] =
+    useState<ScheduledMeeting | null>(null);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -43,11 +46,28 @@ const ScheduleMeeting = ({
 
   const handleCopyRoomID = () => {
     setCopyRoomId(true);
-    navigator.clipboard.writeText(roomId);
+    navigator.clipboard.writeText(scheduledMeetingDetails?.roomId as string);
   };
 
-  const handleScheduleMeeting = () => {
-    setMeetingScheduled(true);
+  const handleScheduleMeeting = async () => {
+    try {
+      const responce = await axios.post(
+        "http://localhost:8080/api/scheduleMeeting",
+        {
+          senderEmail: currentUser.email,
+          receiverEmail: email,
+          roomId: roomId,
+          dateTime: dateTime,
+        }
+      );
+
+      if (responce.status === 200) {
+        setMeetingScheduled(true);
+        setScheduledMeetingDetails(responce.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
