@@ -10,6 +10,7 @@ import Dashboard from "./pages/DashboardPage";
 import { CurrentUserProvider } from "./provider/currentUserProvider";
 import { PrivateRoute } from "./components/privateRoute";
 import PreviousMeetings from "./components/Meetings/previousMeetings";
+import UpComingMeetings from "./components/Meetings/upcomingMeetings";
 function App() {
   return (
     <CurrentUserProvider>
@@ -30,6 +31,14 @@ function App() {
                 element={
                   <MainLayout>
                     <PreviousMeetings />
+                  </MainLayout>
+                }
+              />
+              <Route
+                path="/upComingMeetings"
+                element={
+                  <MainLayout>
+                    <UpComingMeetings />
                   </MainLayout>
                 }
               />

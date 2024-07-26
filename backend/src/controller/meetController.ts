@@ -70,3 +70,29 @@ export const scheduledMeetingsController = async (req: Request, res: Response) =
         return res.status(500).send("Internal server error")
     }
 }
+
+
+export const fetchUserUpComingMeetingsController = async (req: Request, res: Response) => {
+
+    const { email } = req.params
+    if (!email) {
+        return res.status(400).send("All fields are required")
+    }
+    try {
+        const currentTime = new Date();
+        const oneHourLater = new Date(currentTime.getTime() - 60 * 60 * 1000).toISOString();
+        const upcomingMeetings = await ScheduledMeetModel.find({
+            $or: [{ senderEmail: email }, { receiverEmail: email }],
+            dateTime: { $gt: oneHourLater },
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "Upcoming Meetings fetched successfully",
+            data: upcomingMeetings
+        })
+    } catch (error) {
+        console.log("Fetch User UpComing Meetings Controller Error", error)
+        return res.status(500).send("Internal server error")
+    }
+}

@@ -29,6 +29,15 @@ const SideBarItems = () => {
         <p className="ml-2 text-white">Home</p>
       </div>
       <div
+        onClick={() => handleClick("/upComingMeetings")}
+        className={`p-2 flex cursor-pointer items-center hover:bg-blue-600  ${
+          location.pathname === "/upComingMeetings" && "bg-[#0E78F9]"
+        } w-full rounded-lg`}
+      >
+        <img src="/upcomming.svg" className="h-5 w-5 text-white" />
+        <p className="ml-2 text-white">Upcoming</p>
+      </div>
+      <div
         onClick={() => handleClick("/previousMeetings")}
         className={`p-2 flex cursor-pointer items-center hover:bg-blue-600  ${
           location.pathname === "/previousMeetings" && "bg-[#0E78F9]"
