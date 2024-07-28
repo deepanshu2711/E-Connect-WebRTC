@@ -26,11 +26,19 @@ const SenderRoom = () => {
       const message = JSON.parse(event.data);
       if (message.type === "userJoined") {
         setReciverEmail(message.data);
+        handleScheduledMeetingJoined(message.roomId);
         InitiateConnection();
         setStartTime(Date.now().toLocaleString("en-US"));
       }
     };
   }, [socket.socket]);
+
+  const handleScheduledMeetingJoined = async (roomId: string) => {
+    console.log(roomId);
+    await axios.get(
+      `http://localhost:8080/api/scheduledMeetingJoined/${roomId}`
+    );
+  };
 
   const InitiateConnection = async () => {
     console.log("InitiateConnection");

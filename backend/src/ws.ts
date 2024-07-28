@@ -34,7 +34,7 @@ export const WebSocketServer = (Server: Server) => {
                         console.log("Other user joined")
                         console.log(RoomMap.get(roomId)[0])
                         console.log(RoomMap.get(roomId)[1])
-                        SenderSocket?.send(JSON.stringify({ type: 'userJoined', data: RoomMap.get(roomId)[1] }));
+                        SenderSocket?.send(JSON.stringify({ type: 'userJoined', data: RoomMap.get(roomId)[1], roomId: roomId }));
                         ReciverSocket?.send(JSON.stringify({ type: 'userJoined', data: RoomMap.get(roomId)[0] }));
                     }
                     // console.log(`User connected to room ${roomId}. Total users in room: ${roomConnections.length}`);

@@ -36,7 +36,7 @@ const UpComingMeetings = () => {
     return currentDate < meetingDate;
   };
 
-  const handleJoinMeeting = (
+  const handleJoinMeeting = async (
     roomId: string,
     senderEmail: string,
     receiverEmail: string
@@ -68,7 +68,6 @@ const UpComingMeetings = () => {
         },
       })
     );
-
     navigate(path);
   };
 
@@ -91,19 +90,25 @@ const UpComingMeetings = () => {
                   </p>
                 </div>
                 <div>
-                  <button
-                    disabled={checkMeetingStatus(meeting.dateTime)}
-                    onClick={() =>
-                      handleJoinMeeting(
-                        meeting.roomId,
-                        meeting.senderEmail,
-                        meeting.receiverEmail
-                      )
-                    }
-                    className="bg-blue-600 text-gray-300 text-[14px] rounded-xl max-w-fit p-2 disabled:bg-gray-700"
-                  >
-                    Join Meeting
-                  </button>
+                  {meeting.status === "Joined" ? (
+                    <button className="bg-gray-700 text-gray-300 text-[14px] rounded-xl max-w-fit p-2 disabled:bg-gray-700">
+                      Not Avaliable
+                    </button>
+                  ) : (
+                    <button
+                      disabled={checkMeetingStatus(meeting.dateTime)}
+                      onClick={() =>
+                        handleJoinMeeting(
+                          meeting.roomId,
+                          meeting.senderEmail,
+                          meeting.receiverEmail
+                        )
+                      }
+                      className="bg-blue-600 text-gray-300 text-[14px] rounded-xl max-w-fit p-2 disabled:bg-gray-700"
+                    >
+                      Join Meeting
+                    </button>
+                  )}
                 </div>
               </div>
               <p className="text-gray-300 mt-5">Participants :</p>

@@ -16,6 +16,10 @@ const ScheduledMeetSchema = new mongoose.Schema({
     dateTime: {
         type: String,
         required: true
+    },
+    status: {
+        type: String,
+        required: true
     }
 }, { timestamps: true })
 

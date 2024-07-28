@@ -21,5 +21,6 @@ export type ScheduledMeeting = {
     senderEmail: string;
     receiverEmail: string;
     dateTime: string;
-    roomId: string
+    roomId: string;
+    status: string;
 }
