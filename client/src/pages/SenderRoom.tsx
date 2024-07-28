@@ -36,7 +36,7 @@ const SenderRoom = () => {
   const handleScheduledMeetingJoined = async (roomId: string) => {
     console.log(roomId);
     await axios.get(
-      `http://localhost:8080/api/scheduledMeetingJoined/${roomId}`
+      `${import.meta.env.VITE_BASE_URL}/api/scheduledMeetingJoined/${roomId}`
     );
   };
 
@@ -104,7 +104,7 @@ const SenderRoom = () => {
 
   const meetingDetails = async (endMeetingTime: string) => {
     try {
-      await axios.post("http://localhost:8080/api/meetingDetails", {
+      await axios.post(`${import.meta.env.VITE_BASE_URL}/api/meetingDetails`, {
         senderEmail: currentUser.user?.email,
         reciverEmail: reciverEmail,
         startTime: startTime,

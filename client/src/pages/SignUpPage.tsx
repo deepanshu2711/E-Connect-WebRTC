@@ -14,12 +14,16 @@ const SignUpPage = () => {
 
   const handleSignUp = async () => {
     setErrorMessage("");
+
     try {
-      const responce = await axios.post("http://localhost:8080/api/signUp", {
-        email,
-        userName,
-        password,
-      });
+      const responce = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/api/signUp`,
+        {
+          email,
+          userName,
+          password,
+        }
+      );
       console.log(responce.data);
       if (responce.status === 200) {
         // alert("Account created successfully");

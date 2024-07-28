@@ -52,7 +52,7 @@ const ScheduleMeeting = ({
   const handleScheduleMeeting = async () => {
     try {
       const responce = await axios.post(
-        "http://localhost:8080/api/scheduleMeeting",
+        `${import.meta.env.VITE_BASE_URL}/api/scheduleMeeting`,
         {
           senderEmail: currentUser.email,
           receiverEmail: email,

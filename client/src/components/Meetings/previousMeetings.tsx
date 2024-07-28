@@ -12,7 +12,9 @@ const PreviousMeetings = () => {
     const fetchuserMeetings = async () => {
       try {
         const responce = await axios.get(
-          `http://localhost:8080/api/getUserPreviousMeetings/${currentUser.user?.email}`
+          `${import.meta.env.VITE_BASE_URL}/api/getUserPreviousMeetings/${
+            currentUser.user?.email
+          }`
         );
         console.log(responce.data);
 

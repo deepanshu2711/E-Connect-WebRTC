@@ -16,7 +16,9 @@ const UpComingMeetings = () => {
     const fetchuserMeetings = async () => {
       try {
         const responce = await axios.get(
-          `http://localhost:8080/api/getUserUpcomingMeetings/${currentUser.user?.email}`
+          `${import.meta.env.VITE_BASE_URL}/api/getUserUpcomingMeetings/${
+            currentUser.user?.email
+          }`
         );
         console.log(responce.data);
 

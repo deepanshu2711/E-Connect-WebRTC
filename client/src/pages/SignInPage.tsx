@@ -14,10 +14,13 @@ const SignInPage = () => {
   const handleSignIn = async () => {
     setErrorMessage("");
     try {
-      const responce = await axios.post("http://localhost:8080/api/signIn", {
-        email,
-        password,
-      });
+      const responce = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/api/signIn`,
+        {
+          email,
+          password,
+        }
+      );
       console.log(responce.data);
       if (responce.status === 200) {
         currentUser.setUser(responce.data.user);
@@ -25,7 +28,8 @@ const SignInPage = () => {
       } else {
         setErrorMessage(responce.data.message);
       }
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       setErrorMessage(error.response?.data?.message);
     }
   };
