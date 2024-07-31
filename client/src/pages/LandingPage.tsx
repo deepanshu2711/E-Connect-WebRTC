@@ -1,9 +1,14 @@
+import { useNavigate } from "react-router-dom";
+
 const Landing = () => {
+  const navigate = useNavigate();
   const handleClick = () => {
-    window.location.href = "/signUp";
+    // window.location.href = "/signUp";
+    navigate("/signUp");
   };
   const handlGetStarted = () => {
-    window.location.href = "/signIn";
+    // window.location.href = "/signIn";
+    navigate("/signIn");
   };
 
   return (
