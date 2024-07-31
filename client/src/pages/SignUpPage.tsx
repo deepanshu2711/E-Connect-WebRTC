@@ -33,7 +33,8 @@ const SignUpPage = () => {
         setErrorMessage(responce.data.message);
       }
     } catch (error) {
-      setErrorMessage(error.response?.data?.message);
+      // setErrorMessage(error.response?.data?.message);
+      setErrorMessage("Something went wrong");
     }
   };
 

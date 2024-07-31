@@ -7,9 +7,9 @@ import { useUser } from "../provider/currentUserProvider";
 
 const SenderRoom = () => {
   const socket = useSocket();
-  const [pc, setPc] = useState<RTCPeerConnection | null>(null);
+  // const [pc, setPc] = useState<RTCPeerConnection | null>(null);
   const myVideoRef = useRef<HTMLVideoElement | null>(null);
-  const [myStream, setMyStream] = useState<MediaStream | null>(null);
+  // const [myStream, setMyStream] = useState<MediaStream | null>(null);
   const remoteRef = useRef<HTMLVideoElement | null>(null);
   const [startTime, setStartTime] = useState<string>("");
   const [endTime, setEndTime] = useState<string>("");
@@ -120,7 +120,7 @@ const SenderRoom = () => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((stream) => {
-        setMyStream(stream);
+        // setMyStream(stream);
         if (myVideoRef.current) {
           myVideoRef.current.srcObject = stream;
         }

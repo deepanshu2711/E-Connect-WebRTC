@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useSocket } from "../provider/webSocketProvider";
 import { MdCallEnd } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const ReceiverRoom = () => {
   const myVideoRef = useRef<HTMLVideoElement | null>(null);
   const RemoteRef = useRef<HTMLVideoElement | null>(null);
-  const [pc, setPc] = useState<RTCPeerConnection | null>(null);
+  // const [pc, setPc] = useState<RTCPeerConnection | null>(null);
   const navigate = useNavigate();
   const socket = useSocket();
   const params = useParams();
@@ -30,7 +30,7 @@ const ReceiverRoom = () => {
       ],
     });
 
-    setPc(pc);
+    // setPc(pc);
     pc.ontrack = (event) => {
       console.log(event);
       if (RemoteRef.current) {
